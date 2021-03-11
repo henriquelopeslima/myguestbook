@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210306001001 extends AbstractMigration
+final class Version20210311223012 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,13 +20,16 @@ final class Version20210306001001 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE comment RENAME COLUMN create_at TO created_at');
+        // $this->addSql('ALTER TABLE conference ADD slug VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE conference ADD slug VARCHAR(255)');
+        $this->addSql("UPDATE conference SET slug=CONCAT(LOWER(city), '-', year)");
+        $this->addSql('ALTER TABLE conference ALTER COLUMN slug SET NOT NULL');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE comment RENAME COLUMN created_at TO create_at');
+        $this->addSql('ALTER TABLE conference DROP slug');
     }
 }
